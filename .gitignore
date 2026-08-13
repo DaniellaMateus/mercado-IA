@@ -1,0 +1,19 @@
+# Credenciais
+.env
+
+# Ambiente virtual
+.venv/
+venv/
+
+# Banco vetorial gerado localmente
+chroma_db/*
+!chroma_db/.gitkeep
+
+# Cache do Python
+__pycache__/
+*.py[cod]
+
+# Arquivos temporários
+.pytest_cache/
+.DS_Store
+Thumbs.db
