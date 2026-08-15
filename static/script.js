@@ -7,6 +7,8 @@ const clearButton = document.getElementById("clear-button");
 
 let processandoPergunta = false;
 
+const TEMPO_LIMITE_RESPOSTA = 60000;
+
 
 // ENVIO PELO FORMULÁRIO
 
@@ -15,10 +17,7 @@ form.addEventListener("submit", async function (event) {
 
     const pergunta = input.value.trim();
 
-    if (
-        !pergunta ||
-        processandoPergunta
-    ) {
+    if (!pergunta || processandoPergunta) {
         return;
     }
 
@@ -29,10 +28,7 @@ form.addEventListener("submit", async function (event) {
 // ENTER ENVIA E SHIFT + ENTER QUEBRA A LINHA
 
 input.addEventListener("keydown", function (event) {
-    if (
-        event.key === "Enter" &&
-        !event.shiftKey
-    ) {
+    if (event.key === "Enter" && !event.shiftKey) {
         event.preventDefault();
         form.requestSubmit();
     }
@@ -44,17 +40,12 @@ input.addEventListener("keydown", function (event) {
 input.addEventListener("input", ajustarAlturaInput);
 
 
-// CLIQUES NAS SUGESTÕES E MENU LATERAL
+// CLIQUES NAS SUGESTÕES E NO MENU LATERAL
 
 document.addEventListener("click", async function (event) {
-    const botao = event.target.closest(
-        "[data-question]"
-    );
+    const botao = event.target.closest("[data-question]");
 
-    if (
-        !botao ||
-        processandoPergunta
-    ) {
+    if (!botao || processandoPergunta) {
         return;
     }
 
@@ -68,9 +59,7 @@ document.addEventListener("click", async function (event) {
         botao.classList.add("active");
     }
 
-    await enviarPergunta(
-        botao.dataset.question
-    );
+    await enviarPergunta(botao.dataset.question);
 });
 
 
@@ -105,36 +94,43 @@ async function enviarPergunta(pergunta) {
     processandoPergunta = true;
 
     removerBoasVindas();
-
-    adicionarMensagem(
-        pergunta,
-        "user"
-    );
+    adicionarMensagem(pergunta, "user");
 
     input.value = "";
     ajustarAlturaInput();
 
     input.disabled = true;
     sendButton.disabled = true;
+    form.setAttribute("aria-busy", "true");
 
     exibirDigitacao(true);
 
+    const controller = new AbortController();
+
+    const timeout = setTimeout(function () {
+        controller.abort();
+    }, TEMPO_LIMITE_RESPOSTA);
+
     try {
-        const response = await fetch(
-            "/api/perguntar",
-            {
-                method: "POST",
+        if (!navigator.onLine) {
+            throw new Error(
+                "Você parece estar sem conexão com a internet. Verifique sua rede e tente novamente."
+            );
+        }
 
-                headers: {
-                    "Content-Type":
-                        "application/json"
-                },
+        const response = await fetch("/api/perguntar", {
+            method: "POST",
 
-                body: JSON.stringify({
-                    pergunta: pergunta
-                })
-            }
-        );
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+                pergunta: pergunta
+            }),
+
+            signal: controller.signal
+        });
 
         let data;
 
@@ -149,13 +145,13 @@ async function enviarPergunta(pergunta) {
         if (!response.ok) {
             throw new Error(
                 data.detail ||
-                "Não foi possível consultar o assistente."
+                "Não foi possível consultar a assistente."
             );
         }
 
         if (!data.resposta) {
             throw new Error(
-                "O assistente não retornou uma resposta."
+                "A assistente não retornou uma resposta."
             );
         }
 
@@ -166,22 +162,32 @@ async function enviarPergunta(pergunta) {
         );
 
     } catch (erro) {
-        console.error(
-            "Erro ao enviar pergunta:",
-            erro
-        );
+        console.error("Erro ao enviar pergunta:", erro);
+
+        const mensagemErro =
+            erro.name === "AbortError"
+                ? "A consulta demorou mais que o esperado. Tente novamente em alguns instantes."
+                : (
+                    erro.message ||
+                    "Não consegui responder agora. Tente novamente em alguns instantes."
+                );
 
         adicionarMensagem(
-            erro.message ||
-            "Não consegui responder agora. Tente novamente em alguns instantes.",
-            "bot"
+            mensagemErro,
+            "bot",
+            [],
+            { erro: true }
         );
 
     } finally {
+        clearTimeout(timeout);
+
         exibirDigitacao(false);
 
         input.disabled = false;
         sendButton.disabled = false;
+
+        form.removeAttribute("aria-busy");
 
         processandoPergunta = false;
 
@@ -194,8 +200,7 @@ async function enviarPergunta(pergunta) {
 // REMOVE A TELA INICIAL
 
 function removerBoasVindas() {
-    const welcome =
-        document.getElementById("welcome");
+    const welcome = document.getElementById("welcome");
 
     if (welcome) {
         welcome.remove();
@@ -208,33 +213,52 @@ function removerBoasVindas() {
 function adicionarMensagem(
     texto,
     tipo,
-    fontes = []
+    fontes = [],
+    opcoes = {}
 ) {
-    const mensagem =
-        document.createElement("div");
+    const mensagem = document.createElement("div");
 
-    mensagem.className =
-        `message message-${tipo}`;
+    mensagem.className = `message message-${tipo}`;
 
     if (tipo === "bot") {
-        const avatar =
-            document.createElement("div");
+        const avatar = document.createElement("div");
 
-        avatar.className =
-            "message-avatar";
-
-        avatar.textContent = "MC";
+        avatar.className = "message-avatar";
+        avatar.textContent = "MIA";
+        avatar.setAttribute(
+            "aria-label",
+            "Mensagem da MIA"
+        );
 
         mensagem.appendChild(avatar);
     }
 
-    const wrap =
-        document.createElement("div");
-
+    const wrap = document.createElement("div");
     wrap.className = "message-wrap";
 
-    const bolha =
-        document.createElement("div");
+    if (tipo === "bot") {
+        const selo = document.createElement("span");
+
+        selo.className = opcoes.erro
+            ? "answer-badge answer-badge-error"
+            : "answer-badge";
+
+        if (opcoes.erro) {
+            selo.textContent =
+                "⚠ Não foi possível consultar";
+        } else if (
+            Array.isArray(fontes) &&
+            fontes.length > 0
+        ) {
+            selo.textContent = "▣ Base documental";
+        } else {
+            selo.textContent = "✦ Resposta da MIA";
+        }
+
+        wrap.appendChild(selo);
+    }
+
+    const bolha = document.createElement("div");
 
     bolha.className = "message-bubble";
     bolha.textContent = texto;
@@ -246,26 +270,49 @@ function adicionarMensagem(
         Array.isArray(fontes) &&
         fontes.length > 0
     ) {
-        wrap.appendChild(
-            criarFontes(fontes)
-        );
+        wrap.appendChild(criarFontes(fontes));
     }
 
-    const horario =
-        document.createElement("span");
+    const rodapeMensagem =
+        document.createElement("div");
+
+    rodapeMensagem.className =
+        "message-footer-line";
+
+    const horario = document.createElement("span");
 
     horario.className = "message-time";
 
-    horario.textContent =
-        new Intl.DateTimeFormat(
-            "pt-BR",
-            {
-                hour: "2-digit",
-                minute: "2-digit"
-            }
-        ).format(new Date());
+    horario.textContent = new Intl.DateTimeFormat(
+        "pt-BR",
+        {
+            hour: "2-digit",
+            minute: "2-digit"
+        }
+    ).format(new Date());
 
-    wrap.appendChild(horario);
+    rodapeMensagem.appendChild(horario);
+
+    if (tipo === "bot" && !opcoes.erro) {
+        const copiar = document.createElement("button");
+
+        copiar.type = "button";
+        copiar.className = "copy-button";
+        copiar.textContent = "Copiar";
+
+        copiar.setAttribute(
+            "aria-label",
+            "Copiar resposta da MIA"
+        );
+
+        copiar.addEventListener("click", function () {
+            copiarResposta(texto, copiar);
+        });
+
+        rodapeMensagem.appendChild(copiar);
+    }
+
+    wrap.appendChild(rodapeMensagem);
     mensagem.appendChild(wrap);
     chat.appendChild(mensagem);
 
@@ -276,47 +323,40 @@ function adicionarMensagem(
 // CRIA A LISTA RECOLHÍVEL DE FONTES
 
 function criarFontes(fontes) {
-    const detalhes =
-        document.createElement("details");
-
+    const detalhes = document.createElement("details");
     detalhes.className = "sources";
 
-    const resumo =
-        document.createElement("summary");
+    const fontesAgrupadas = agruparFontes(fontes);
+
+    const resumo = document.createElement("summary");
 
     resumo.textContent =
-        "Ver fontes consultadas";
+        fontesAgrupadas.length === 1
+            ? "Ver 1 fonte consultada"
+            : `Ver ${fontesAgrupadas.length} fontes consultadas`;
 
     detalhes.appendChild(resumo);
 
-    const lista =
-        document.createElement("div");
-
+    const lista = document.createElement("div");
     lista.className = "sources-list";
 
-    const fontesAgrupadas =
-        agruparFontes(fontes);
+    fontesAgrupadas.forEach(function (fonte) {
+        const item = document.createElement("span");
 
-    fontesAgrupadas.forEach(
-        function (fonte) {
-            const item =
-                document.createElement("span");
+        const paginas =
+            fonte.paginas.length > 0
+                ? ` · página${
+                    fonte.paginas.length > 1
+                        ? "s"
+                        : ""
+                } ${fonte.paginas.join(", ")}`
+                : "";
 
-            const paginas =
-                fonte.paginas.length > 0
-                    ? ` · página${
-                        fonte.paginas.length > 1
-                            ? "s"
-                            : ""
-                    } ${fonte.paginas.join(", ")}`
-                    : "";
+        item.textContent =
+            `${fonte.arquivo}${paginas}`;
 
-            item.textContent =
-                `${fonte.arquivo}${paginas}`;
-
-            lista.appendChild(item);
-        }
-    );
+        lista.appendChild(item);
+    });
 
     detalhes.appendChild(lista);
 
@@ -345,10 +385,7 @@ function agruparFontes(fontes) {
                 : null;
 
         if (!agrupadas.has(arquivo)) {
-            agrupadas.set(
-                arquivo,
-                new Set()
-            );
+            agrupadas.set(arquivo, new Set());
         }
 
         if (pagina) {
@@ -374,13 +411,58 @@ function agruparFontes(fontes) {
 }
 
 
-// MOSTRA OU ESCONDE O INDICADOR
+// COPIA UMA RESPOSTA
+
+async function copiarResposta(texto, botao) {
+    const rotuloOriginal = botao.textContent;
+
+    try {
+        if (
+            navigator.clipboard &&
+            window.isSecureContext
+        ) {
+            await navigator.clipboard.writeText(texto);
+        } else {
+            const areaTemporaria =
+                document.createElement("textarea");
+
+            areaTemporaria.value = texto;
+            areaTemporaria.style.position = "fixed";
+            areaTemporaria.style.opacity = "0";
+
+            document.body.appendChild(areaTemporaria);
+
+            areaTemporaria.select();
+
+            const copiado =
+                document.execCommand("copy");
+
+            areaTemporaria.remove();
+
+            if (!copiado) {
+                throw new Error(
+                    "Cópia não suportada"
+                );
+            }
+        }
+
+        botao.textContent = "Copiado ✓";
+
+    } catch {
+        botao.textContent =
+            "Não foi possível copiar";
+    }
+
+    setTimeout(function () {
+        botao.textContent = rotuloOriginal;
+    }, 1800);
+}
+
+
+// MOSTRA OU ESCONDE O INDICADOR DE DIGITAÇÃO
 
 function exibirDigitacao(visivel) {
-    typing.classList.toggle(
-        "visible",
-        visivel
-    );
+    typing.classList.toggle("visible", visivel);
 
     typing.setAttribute(
         "aria-hidden",
@@ -395,24 +477,19 @@ function ajustarAlturaInput() {
     input.style.height = "auto";
 
     input.style.height =
-        `${Math.min(
-            input.scrollHeight,
-            100
-        )}px`;
+        `${Math.min(input.scrollHeight, 100)}px`;
 }
 
 
 // ROLA EXCLUSIVAMENTE A ÁREA DO CHAT
 
 function rolarChat() {
-    requestAnimationFrame(
-        function () {
-            chat.scrollTo({
-                top: chat.scrollHeight,
-                behavior: "smooth"
-            });
-        }
-    );
+    requestAnimationFrame(function () {
+        chat.scrollTo({
+            top: chat.scrollHeight,
+            behavior: "smooth"
+        });
+    });
 }
 
 
@@ -423,23 +500,44 @@ function criarBoasVindas() {
         <section class="welcome" id="welcome">
 
             <span class="welcome-tag">
-                ✦ MERCADO CENTRAL INTELLIGENCE
+                ✦ PROJETO DE IA GENERATIVA + RAG
             </span>
 
             <div class="welcome-icon">
-                MC
+                MIA
             </div>
 
             <h2>
-                Informação confiável para clientes,
-                colaboradores e fornecedores.
+                Olá, eu sou a MIA.<br>
+                Como posso ajudar você hoje?
             </h2>
 
             <p>
-                Converse com o assistente inteligente do Mercado
-                Central 24h e encontre respostas fundamentadas
-                nos documentos oficiais da empresa.
+                A assistente inteligente do Mercado Central 24h
+                pesquisa a base documental da empresa para oferecer
+                respostas confiáveis a clientes, colaboradores
+                e fornecedores.
             </p>
+
+            <div
+                class="welcome-features"
+                aria-label="Diferenciais do projeto"
+            >
+                <span class="feature-pill">
+                    <strong>RAG</strong>
+                    Consulta contextual
+                </span>
+
+                <span class="feature-pill">
+                    <strong>Base oficial</strong>
+                    Respostas fundamentadas
+                </span>
+
+                <span class="feature-pill">
+                    <strong>24 horas</strong>
+                    Atendimento inteligente
+                </span>
+            </div>
 
             <div class="suggestions">
 

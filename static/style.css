@@ -1,21 +1,21 @@
 :root {
-    --navy-1000: #010812;
-    --navy-950: #03101d;
-    --navy-900: #071726;
-    --navy-850: #0a1d2f;
-    --navy-800: #10263b;
-    --navy-700: #173652;
+    --navy-1000: #442f37;
+    --navy-950: #fff9f7;
+    --navy-900: #fff5f2;
+    --navy-850: #ffebe5;
+    --navy-800: #ffe0e8;
+    --navy-700: #f8bfd0;
 
-    --gold-500: #dcae4f;
-    --gold-400: #ecc66e;
-    --gold-300: #f5d98e;
+    --gold-500: #ff7a33;
+    --gold-400: #ff9a5c;
+    --gold-300: #e94f87;
 
-    --white: #f6f9fc;
-    --text: #dfe9f2;
-    --muted: #8fa4b8;
+    --white: #ffffff;
+    --text: #442f37;
+    --muted: #8c6874;
 
-    --line: rgba(255, 255, 255, 0.09);
-    --line-gold: rgba(220, 174, 79, 0.35);
+    --line: rgba(233, 79, 135, 0.16);
+    --line-gold: rgba(255, 122, 51, 0.4);
 
     --sidebar-width: 255px;
 }
@@ -1255,5 +1255,542 @@ textarea:focus-visible {
 
     #pergunta {
         font-size: 11px;
+    }
+}
+
+/*
+ * TEMA MERCADO-IA
+ * Base clara com rosa e laranja para uma identidade acolhedora,
+ * ligada a atendimento, compras e delivery.
+ */
+
+body {
+    color-scheme: light;
+    color: var(--text);
+    background:
+        linear-gradient(
+            rgba(255, 249, 247, 0.96),
+            rgba(255, 255, 255, 0.98)
+        ),
+        url("/static/fundo-mercado-central.jpg")
+        center / cover fixed;
+}
+
+.app-shell {
+    background: #fff9f7;
+}
+
+.sidebar {
+    border-right: 1px solid rgba(233, 79, 135, 0.14);
+    background:
+        linear-gradient(
+            180deg,
+            #ffffff 0%,
+            #fff5f2 58%,
+            #fff0f5 100%
+        );
+    box-shadow: 10px 0 30px rgba(126, 58, 79, 0.06);
+}
+
+.sidebar-brand,
+.sidebar-footer {
+    border-color: rgba(233, 79, 135, 0.14);
+}
+
+.brand-mark,
+.message-avatar,
+#send-button {
+    color: #ffffff;
+    background:
+        linear-gradient(
+            135deg,
+            #e94f87 0%,
+            #f36472 48%,
+            #ff7a33 100%
+        );
+    box-shadow: 0 8px 20px rgba(233, 79, 135, 0.2);
+}
+
+.sidebar-brand h1,
+.top-header h2,
+.welcome h2,
+.suggestions strong {
+    color: #442f37;
+}
+
+.sidebar-brand p,
+.top-header p,
+.suggestions small,
+.typing small,
+.sources-list span {
+    color: #8c6874;
+}
+
+.powered {
+    color: #d9487c;
+    border-color: rgba(255, 122, 51, 0.24);
+    background:
+        linear-gradient(
+            90deg,
+            rgba(233, 79, 135, 0.08),
+            rgba(255, 122, 51, 0.08)
+        );
+}
+
+.nav-title,
+.sidebar-footer > p {
+    color: #a17c88;
+}
+
+.nav-item {
+    color: #765762;
+}
+
+.nav-icon {
+    color: #df678f;
+}
+
+.nav-item:hover {
+    color: #d9487c;
+    border-color: rgba(233, 79, 135, 0.12);
+    background: rgba(233, 79, 135, 0.07);
+}
+
+.nav-item.active,
+.nav-item.active:hover {
+    color: #ffffff;
+    border-color: transparent;
+    background:
+        linear-gradient(
+            135deg,
+            #e94f87,
+            #ff7a33
+        );
+    box-shadow: 0 8px 20px rgba(233, 79, 135, 0.17);
+}
+
+.nav-item.active .nav-icon {
+    color: #ffffff;
+}
+
+.social-link {
+    color: #765762;
+}
+
+.social-link:hover {
+    color: #e94f87;
+    background: rgba(255, 122, 51, 0.08);
+}
+
+.main-panel {
+    background:
+        radial-gradient(
+            circle at 82% 8%,
+            rgba(255, 122, 51, 0.1),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 15% 22%,
+            rgba(233, 79, 135, 0.1),
+            transparent 32%
+        ),
+        #fffdfc;
+}
+
+.top-header {
+    border-bottom: 1px solid rgba(233, 79, 135, 0.13);
+    background: rgba(255, 255, 255, 0.94);
+    box-shadow: 0 6px 24px rgba(126, 58, 79, 0.05);
+}
+
+.online-status {
+    color: #d85b2f;
+    border-color: rgba(255, 122, 51, 0.22);
+    background: rgba(255, 122, 51, 0.08);
+}
+
+.status-dot {
+    background: #ff7a33;
+    box-shadow: 0 0 8px rgba(255, 122, 51, 0.72);
+}
+
+.clear-button {
+    color: #9a7180;
+    border-color: rgba(233, 79, 135, 0.16);
+    background: #ffffff;
+}
+
+.clear-button:hover {
+    color: #e94f87;
+    border-color: rgba(255, 122, 51, 0.34);
+    background: #fff3f0;
+}
+
+.chat-content {
+    scrollbar-color:
+        rgba(233, 79, 135, 0.45)
+        rgba(233, 79, 135, 0.05);
+}
+
+.chat-content::-webkit-scrollbar-track {
+    background: rgba(233, 79, 135, 0.04);
+}
+
+.chat-content::-webkit-scrollbar-thumb {
+    border-color: #fffdfc;
+    background:
+        linear-gradient(
+            #e94f87,
+            #ff7a33
+        );
+}
+
+.chat-content::-webkit-scrollbar-thumb:hover {
+    background: #e94f87;
+}
+
+.welcome-tag {
+    color: #d9487c;
+    border-color: rgba(233, 79, 135, 0.2);
+    background:
+        linear-gradient(
+            90deg,
+            rgba(233, 79, 135, 0.09),
+            rgba(255, 122, 51, 0.09)
+        );
+}
+
+.welcome-icon {
+    color: #ffffff;
+    border: 0;
+    background:
+        linear-gradient(
+            135deg,
+            #e94f87,
+            #ff7a33
+        );
+    box-shadow: 0 14px 32px rgba(233, 79, 135, 0.22);
+}
+
+.welcome > p {
+    color: #80616c;
+}
+
+.welcome-features {
+    width: min(620px, 100%);
+    margin: -8px 0 24px;
+
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    gap: 8px;
+}
+
+.feature-pill {
+    min-width: 0;
+    padding: 9px 12px;
+
+    flex: 1 1 0;
+
+    color: #8c6874;
+    border: 1px solid rgba(233, 79, 135, 0.13);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.82);
+
+    font-size: 8px;
+    line-height: 1.4;
+    text-align: left;
+
+    box-shadow: 0 7px 20px rgba(126, 58, 79, 0.05);
+}
+
+.feature-pill strong {
+    display: block;
+    margin-bottom: 3px;
+
+    color: #d9487c;
+    font-size: 9px;
+}
+
+.suggestions button {
+    color: #442f37;
+    border-color: rgba(233, 79, 135, 0.14);
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 8px 24px rgba(126, 58, 79, 0.07);
+}
+
+.suggestions button:hover {
+    border-color: rgba(255, 122, 51, 0.42);
+    background:
+        linear-gradient(
+            135deg,
+            #ffffff,
+            #fff4f0
+        );
+    box-shadow: 0 12px 28px rgba(233, 79, 135, 0.12);
+}
+
+.suggestion-icon {
+    color: #ffffff;
+    background:
+        linear-gradient(
+            135deg,
+            #e94f87,
+            #ff8b47
+        );
+}
+
+.message-avatar,
+.typing-avatar {
+    color: #ffffff;
+}
+
+.message-bot .message-bubble {
+    color: #4b333c;
+    border-color: rgba(233, 79, 135, 0.14);
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 8px 22px rgba(126, 58, 79, 0.07);
+}
+
+.message-user .message-bubble {
+    color: #ffffff;
+    background:
+        linear-gradient(
+            135deg,
+            #e94f87 0%,
+            #ff7a33 100%
+        );
+    box-shadow: 0 8px 22px rgba(233, 79, 135, 0.18);
+}
+
+.message-time {
+    color: rgba(115, 79, 92, 0.58);
+}
+
+.sources {
+    border-left-color: #ff7a33;
+    background: rgba(255, 122, 51, 0.07);
+}
+
+.sources summary {
+    color: #d9487c;
+}
+
+.typing {
+    background: rgba(255, 253, 252, 0.97);
+}
+
+.typing-avatar {
+    background:
+        linear-gradient(
+            135deg,
+            #e94f87,
+            #ff7a33
+        );
+}
+
+.typing-bubble {
+    border: 1px solid rgba(233, 79, 135, 0.12);
+    background: #ffffff;
+    box-shadow: 0 6px 18px rgba(126, 58, 79, 0.06);
+}
+
+.typing-bubble span {
+    background: #e94f87;
+}
+
+.chat-footer {
+    border-top: 1px solid rgba(233, 79, 135, 0.13);
+    background: rgba(255, 255, 255, 0.97);
+    box-shadow: 0 -8px 28px rgba(126, 58, 79, 0.05);
+}
+
+#chat-form {
+    border-color: rgba(233, 79, 135, 0.18);
+    background: #ffffff;
+    box-shadow: 0 8px 24px rgba(126, 58, 79, 0.08);
+}
+
+#chat-form:focus-within {
+    border-color: rgba(233, 79, 135, 0.58);
+    box-shadow:
+        0 0 0 3px rgba(233, 79, 135, 0.1),
+        0 10px 28px rgba(126, 58, 79, 0.08);
+}
+
+#pergunta {
+    color: #442f37;
+}
+
+#pergunta::placeholder {
+    color: #a98490;
+}
+
+#send-button:hover:not(:disabled) {
+    box-shadow: 0 9px 22px rgba(233, 79, 135, 0.24);
+}
+
+#send-button svg {
+    fill: #ffffff;
+}
+
+.chat-footer > p {
+    color: rgba(115, 79, 92, 0.55);
+}
+
+button:focus-visible,
+a:focus-visible,
+textarea:focus-visible {
+    outline-color: #e94f87;
+}
+
+@media (max-width: 650px) {
+    .welcome-features {
+        margin-bottom: 18px;
+        flex-wrap: wrap;
+    }
+
+    .feature-pill {
+        flex-basis: calc(50% - 4px);
+    }
+}
+/* MELHORIAS VISUAIS DA MIA */
+
+.welcome-features {
+    width: min(620px, 100%);
+    margin: -8px 0 24px;
+
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    gap: 8px;
+}
+
+.feature-pill {
+    min-width: 0;
+    padding: 9px 12px;
+
+    flex: 1 1 0;
+
+    color: #8c6874;
+
+    border:
+        1px solid rgba(233, 79, 135, 0.13);
+
+    border-radius: 10px;
+
+    background:
+        rgba(255, 255, 255, 0.82);
+
+    font-size: 8px;
+    line-height: 1.4;
+    text-align: left;
+
+    box-shadow:
+        0 7px 20px rgba(126, 58, 79, 0.05);
+}
+
+.feature-pill strong {
+    display: block;
+
+    margin-bottom: 3px;
+
+    color: #d9487c;
+
+    font-size: 9px;
+}
+
+.answer-badge {
+    width: fit-content;
+
+    margin:
+        0 0 6px 2px;
+
+    padding:
+        5px 8px;
+
+    display: inline-flex;
+    align-items: center;
+
+    color: #d9487c;
+
+    border:
+        1px solid rgba(233, 79, 135, 0.16);
+
+    border-radius: 999px;
+
+    background:
+        rgba(233, 79, 135, 0.07);
+
+    font-size: 7px;
+    font-weight: 700;
+    letter-spacing: 0.35px;
+    text-transform: uppercase;
+}
+
+.answer-badge-error {
+    color: #b44c2e;
+
+    border-color:
+        rgba(255, 122, 51, 0.22);
+
+    background:
+        rgba(255, 122, 51, 0.09);
+}
+
+.message-footer-line {
+    margin-top: 6px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.message-user .message-footer-line {
+    justify-content: flex-end;
+}
+
+.message-footer-line .message-time {
+    margin-top: 0;
+}
+
+.copy-button {
+    padding:
+        3px 6px;
+
+    color: #9a7180;
+
+    border: 0;
+    border-radius: 6px;
+
+    background: transparent;
+
+    cursor: pointer;
+
+    font-size: 7px;
+    font-weight: 600;
+
+    transition:
+        color 0.2s,
+        background 0.2s;
+}
+
+.copy-button:hover {
+    color: #d9487c;
+
+    background:
+        rgba(233, 79, 135, 0.07);
+}
+
+@media (max-width: 650px) {
+    .welcome-features {
+        margin-bottom: 18px;
+        flex-wrap: wrap;
+    }
+
+    .feature-pill {
+        flex-basis:
+            calc(50% - 4px);
     }
 }
