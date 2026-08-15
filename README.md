@@ -2,83 +2,175 @@
 
 # 🛒 MIA — Assistente Inteligente do Mercado Central 24h
 
-### Inteligência Artificial Generativa + RAG para atendimento institucional
+### Inteligência Artificial Generativa com arquitetura RAG para atendimento institucional
 
-A **MIA** é uma assistente virtual desenvolvida para responder dúvidas sobre os serviços, políticas e operações do **Mercado Central 24h**, utilizando informações recuperadas de documentos institucionais.
+[![Aplicação Online](https://img.shields.io/badge/APLICAÇÃO-ONLINE-E94F87?style=for-the-badge&logo=googlechrome&logoColor=white)](http://163.176.19.177:8000)
+[![Oracle Cloud](https://img.shields.io/badge/DEPLOY-ORACLE_CLOUD-F80000?style=for-the-badge&logo=oracle&logoColor=white)](http://163.176.19.177:8000)
+[![Docker](https://img.shields.io/badge/CONTAINER-DOCKER-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
 
-[![Testar aplicação](https://img.shields.io/badge/TESTAR_A_MIA-ONLINE-E94F87?style=for-the-badge&logo=googlechrome&logoColor=white)](http://163.176.19.177:8000)
-
-### 🌐 [Clique aqui para acessar a aplicação](http://163.176.19.177:8000)
+## 🌐 [Clique aqui para testar a MIA](http://163.176.19.177:8000)
 
 </div>
 
 ---
 
-## 📌 Sobre o projeto
+## 📌 Descrição do projeto
 
-O projeto foi desenvolvido para o **Challenge da Alura**, com o objetivo de criar uma aplicação de Inteligência Artificial capaz de consultar uma base documental e produzir respostas contextualizadas.
+A **MIA** é uma assistente inteligente desenvolvida para responder perguntas relacionadas aos serviços, políticas e operações do **Mercado Central 24h**.
 
-A MIA utiliza a arquitetura **RAG — Retrieval-Augmented Generation**. Antes de produzir uma resposta, a aplicação realiza uma busca semântica nos documentos oficiais do Mercado Central 24h, recupera os trechos relevantes e os envia como contexto para o modelo de linguagem.
+O projeto utiliza a arquitetura **RAG — Retrieval-Augmented Generation**, combinando busca semântica em documentos institucionais com um modelo de linguagem executado por meio da API Groq.
 
-Dessa forma, as respostas ficam mais relacionadas às informações reais da organização.
+Antes de gerar uma resposta, a aplicação consulta sua base documental, recupera os trechos mais relevantes e os utiliza como contexto para produzir uma resposta mais precisa e relacionada às informações oficiais da organização.
 
----
-
-## ✨ Principais funcionalidades
-
-- 💬 Interface de chat responsiva e intuitiva;
-- 📚 Consulta semântica a documentos institucionais;
-- 🧠 Geração de respostas contextualizadas com IA;
-- 🔎 Exibição das fontes consultadas;
-- 📋 Botão para copiar as respostas;
-- ⚡ Perguntas sugeridas por categoria;
-- 🛡️ Tratamento de erros, indisponibilidade e tempo limite;
-- 📱 Adaptação para computadores, tablets e celulares;
-- ☁️ Aplicação publicada na Oracle Cloud Infrastructure;
-- 🐳 Execução em container Docker;
-- 🔄 Reinicialização automática do serviço.
+O projeto foi desenvolvido como parte do **Challenge Alura Agente**, contemplando desde o processamento dos documentos até a publicação da aplicação na **Oracle Cloud Infrastructure — OCI**.
 
 ---
 
-## 🗂️ Conteúdos disponíveis
+## 🎯 Objetivo
 
-A base de conhecimento da MIA possui documentos relacionados a:
+O objetivo da MIA é facilitar o acesso às informações do Mercado Central 24h, permitindo que clientes, colaboradores e fornecedores encontrem respostas de maneira rápida, simples e disponível durante 24 horas.
 
-- Visão geral do Mercado Central 24h;
+A assistente pode responder perguntas sobre:
+
+- Serviços do Mercado Central 24h;
 - Programa Cliente VIP Central;
 - Delivery e aplicativo;
 - Trocas e devoluções;
 - Estoque e operação;
-- Fornecedores;
 - Atendimento e privacidade;
+- Cadastro de fornecedores;
 - Regulamento interno.
-
-Atualmente, a base vetorial possui:
-
-- **4 documentos PDF indexados**;
-- **188 trechos disponíveis para busca semântica**.
 
 ---
 
-## 🧠 Como o RAG funciona
+## ✨ Funcionalidades
+
+- 💬 Interface de chat intuitiva e responsiva;
+- 📚 Respostas fundamentadas em documentos institucionais;
+- 🔍 Busca semântica em banco de dados vetorial;
+- 🧠 Geração de respostas com Inteligência Artificial;
+- 📑 Exibição das fontes consultadas;
+- 📋 Botão para copiar respostas;
+- 💡 Sugestões de perguntas por categoria;
+- ⚠️ Tratamento de erros e indisponibilidade;
+- ⏱️ Controle de tempo limite das requisições;
+- 📱 Compatibilidade com computadores e dispositivos móveis;
+- 🐳 Execução em container Docker;
+- ☁️ Deploy na Oracle Cloud Infrastructure;
+- 🔄 Reinicialização automática da aplicação.
+
+---
+
+## 🧠 Arquitetura da solução
 
 ```mermaid
 flowchart TD
-    A["Usuário envia uma pergunta"] --> B["FastAPI recebe a solicitação"]
-    B --> C["Busca semântica no ChromaDB"]
-    C --> D["Trechos relevantes são recuperados"]
-    D --> E["Groq gera a resposta contextualizada"]
-    E --> F["MIA apresenta resposta e fontes"]
+    A["Usuário envia uma pergunta"] --> B["Interface HTML, CSS e JavaScript"]
+    B --> C["API desenvolvida com FastAPI"]
+    C --> D["Busca semântica no ChromaDB"]
+    D --> E["Recuperação dos trechos relevantes"]
+    E --> F["Geração da resposta com Groq"]
+    F --> G["Resposta e fontes exibidas pela MIA"]
 ```
 
-### Fluxo da resposta
+### Etapas do processamento
 
 1. A pessoa usuária envia uma pergunta pela interface;
-2. A API processa e transforma a pergunta em uma representação vetorial;
-3. O ChromaDB pesquisa os trechos semanticamente mais próximos;
-4. Os trechos recuperados são adicionados ao contexto;
-5. O modelo de linguagem gera uma resposta baseada nesse contexto;
-6. A MIA apresenta a resposta e as fontes consultadas.
+2. O FastAPI recebe e valida a solicitação;
+3. A pergunta é transformada em uma representação vetorial;
+4. O ChromaDB pesquisa os conteúdos semanticamente mais próximos;
+5. Os trechos recuperados são adicionados ao contexto;
+6. O modelo de linguagem gera uma resposta baseada no contexto;
+7. A interface apresenta a resposta e as fontes consultadas.
+
+---
+
+## 📚 Base de conhecimento
+
+A base da MIA foi construída a partir de quatro documentos institucionais em PDF:
+
+- Manual de fornecedores e políticas;
+- Manual de perguntas frequentes;
+- Política integrada de atendimento, trocas, devoluções e privacidade;
+- Regulamento interno e manual operacional.
+
+Durante o processo de indexação:
+
+- **4 documentos PDF foram processados**;
+- **188 trechos foram criados**;
+- Os embeddings foram gerados com Sentence Transformers;
+- Os vetores foram armazenados no ChromaDB.
+
+O processamento é realizado pelo arquivo `ingest.py`, enquanto a recuperação dos documentos e a geração das respostas são coordenadas pelo arquivo `rag.py`.
+
+---
+
+## 💬 Exemplos de perguntas
+
+A MIA consegue responder perguntas como:
+
+- Quais são os principais serviços do Mercado Central 24h?
+- Como funciona o programa Cliente VIP Central?
+- Quais são as regras para trocas e devoluções?
+- Como funciona o delivery e o aplicativo?
+- Quais são os principais procedimentos de estoque?
+- Como é realizado o cadastro de fornecedores?
+- Quais documentos são necessários para efetuar uma troca?
+- Como funciona o atendimento durante a madrugada?
+- Quais são as regras de privacidade?
+- Como posso obter benefícios e descontos?
+
+---
+
+## 🧪 Exemplos de respostas geradas
+
+### Exemplo 1 — Serviços disponíveis
+
+**Pergunta:**
+
+> Quais são os principais serviços do Mercado Central 24h?
+
+**Resposta da MIA:**
+
+> O Mercado Central 24h oferece atendimento presencial durante 24 horas, serviço de delivery, aplicativo para compras, programa de fidelidade Cliente VIP Central e suporte para trocas e devoluções. Os serviços foram estruturados para proporcionar praticidade, segurança e atendimento contínuo aos clientes.
+
+---
+
+### Exemplo 2 — Programa Cliente VIP
+
+**Pergunta:**
+
+> Como funciona o programa Cliente VIP Central?
+
+**Resposta da MIA:**
+
+> O Cliente VIP Central é um programa de fidelidade com cadastro gratuito. Os clientes participantes podem receber descontos, acumular cashback e acessar benefícios exclusivos. O cadastro pode ser realizado pelos canais disponibilizados pelo Mercado Central 24h mediante o fornecimento das informações solicitadas.
+
+---
+
+### Exemplo 3 — Trocas e devoluções
+
+**Pergunta:**
+
+> Quais são as regras para trocas e devoluções?
+
+**Resposta da MIA:**
+
+> As regras variam conforme o tipo e a condição do produto. Produtos perecíveis devem ser apresentados dentro do período determinado e acompanhados do comprovante de compra. Também são verificados fatores como validade, conservação, embalagem e condições de armazenamento.
+
+> As respostas são geradas com base nos trechos recuperados dos documentos institucionais.
+
+---
+
+## 📸 Evidência do deploy na OCI
+
+A aplicação foi implantada em uma máquina virtual na **Oracle Cloud Infrastructure**, utilizando Ubuntu Linux e Docker.
+
+### 🌐 [Acessar aplicação online](http://163.176.19.177:8000)
+
+![MIA funcionando na Oracle Cloud Infrastructure](docs/mia-online.png)
+
+A captura demonstra a MIA sendo acessada pelo endereço IP público da instância da OCI e respondendo a uma pergunta baseada em sua documentação institucional.
 
 ---
 
@@ -86,11 +178,11 @@ flowchart TD
 
 ### Back-end e Inteligência Artificial
 
-![Python](https://img.shields.io/badge/Python-3.12-3776AB?style=flat-square&logo=python&logoColor=white)
-![FastAPI](https://img.shields.io/badge/FastAPI-API-009688?style=flat-square&logo=fastapi&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white)
 ![Groq](https://img.shields.io/badge/Groq-LLM-F55036?style=flat-square)
 ![ChromaDB](https://img.shields.io/badge/ChromaDB-Vector_Database-E94F87?style=flat-square)
-![Hugging Face](https://img.shields.io/badge/Sentence_Transformers-Embeddings-FFD21E?style=flat-square&logo=huggingface&logoColor=black)
+![Hugging Face](https://img.shields.io/badge/Sentence_Transformers-FFD21E?style=flat-square&logo=huggingface&logoColor=black)
 
 - Python;
 - FastAPI;
@@ -113,37 +205,26 @@ flowchart TD
 - Design responsivo;
 - Identidade visual personalizada em branco, rosa e laranja.
 
-### Infraestrutura
+### Infraestrutura e desenvolvimento
 
-![Docker](https://img.shields.io/badge/Docker-Container-2496ED?style=flat-square&logo=docker&logoColor=white)
-![Oracle Cloud](https://img.shields.io/badge/Oracle_Cloud-OCI-F80000?style=flat-square&logo=oracle&logoColor=white)
-![Ubuntu](https://img.shields.io/badge/Ubuntu-Linux-E95420?style=flat-square&logo=ubuntu&logoColor=white)
-![GitHub](https://img.shields.io/badge/GitHub-Versionamento-181717?style=flat-square&logo=github&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
+![Oracle Cloud](https://img.shields.io/badge/Oracle_Cloud-F80000?style=flat-square&logo=oracle&logoColor=white)
+![Ubuntu](https://img.shields.io/badge/Ubuntu-E95420?style=flat-square&logo=ubuntu&logoColor=white)
+![Git](https://img.shields.io/badge/Git-F05032?style=flat-square&logo=git&logoColor=white)
+![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=github&logoColor=white)
 
 - Docker;
 - Oracle Cloud Infrastructure;
 - Ubuntu Linux;
 - Git e GitHub;
+- Visual Studio Code;
+- Variáveis de ambiente;
 - Rede VCN e sub-rede pública;
 - Internet Gateway;
-- Regras de rota e segurança;
+- Tabela de rotas;
+- Lista de segurança;
+- Conexão SSH;
 - Swap de 2 GB para estabilidade da VM.
-
----
-
-## ☁️ Aplicação online
-
-A MIA está hospedada em uma máquina virtual na **Oracle Cloud Infrastructure — OCI**, na região de São Paulo.
-
-### 👉 [Acessar a MIA](http://163.176.19.177:8000)
-
-```text
-http://163.176.19.177:8000
-```
-
-Não é necessário instalar o projeto para testar a versão online.
-
-> A aplicação utiliza atualmente um endereço HTTP fornecido diretamente pela instância da OCI.
 
 ---
 
@@ -152,30 +233,38 @@ Não é necessário instalar o projeto para testar a versão online.
 ```text
 MERCADO-IA/
 │
-├── chroma_db/                 # Base vetorial
-├── documentos/               # Documentos institucionais em PDF
+├── chroma_db/                 # Banco de dados vetorial
+├── documentos/               # Documentos institucionais
+├── docs/
+│   └── mia-online.png         # Evidência do deploy
 ├── static/
 │   ├── script.js              # Interações da interface
-│   └── style.css              # Identidade visual
+│   └── style.css              # Estilização
 ├── templates/
 │   └── index.html             # Página principal
 │
 ├── .dockerignore
-├── .env.example               # Modelo das variáveis de ambiente
+├── .env.example               # Modelo das variáveis
 ├── .gitignore
-├── app.py                     # API e rotas da aplicação
+├── app.py                     # API e rotas
 ├── config.py                  # Configurações
 ├── docker-entrypoint.sh       # Inicialização do container
-├── Dockerfile
-├── ingest.py                  # Indexação dos documentos
-├── rag.py                     # Recuperação e geração das respostas
-├── requirements.txt
+├── Dockerfile                 # Imagem Docker
+├── ingest.py                  # Processamento dos documentos
+├── rag.py                     # Busca e geração de respostas
+├── requirements.txt           # Dependências
 └── README.md
 ```
 
 ---
 
-## 🚀 Executando localmente
+## 🚀 Como executar o projeto
+
+### Pré-requisitos
+
+- Python instalado;
+- Git instalado;
+- Uma chave válida da API Groq.
 
 ### 1. Clone o repositório
 
@@ -197,6 +286,12 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned
 .\.venv\Scripts\Activate.ps1
 ```
 
+No Linux:
+
+```bash
+source .venv/bin/activate
+```
+
 ### 3. Instale as dependências
 
 ```bash
@@ -205,20 +300,22 @@ python -m pip install -r requirements.txt
 
 ### 4. Configure as variáveis de ambiente
 
-Crie o arquivo `.env` com base no `.env.example`:
+Crie um arquivo chamado `.env` a partir do `.env.example`:
 
 ```env
 GROQ_API_KEY=sua_chave_groq
 GROQ_MODEL=llama-3.1-8b-instant
 ```
 
-> Nunca publique sua chave real no GitHub.
+> A chave real não deve ser publicada no GitHub.
 
-### 5. Prepare a base vetorial
+### 5. Processe os documentos
 
 ```bash
 python ingest.py
 ```
+
+Esse comando lê os arquivos PDF, divide os textos em trechos, gera os embeddings e armazena os vetores no ChromaDB.
 
 ### 6. Inicie a aplicação
 
@@ -226,7 +323,7 @@ python ingest.py
 python -m uvicorn app:app --reload
 ```
 
-Acesse:
+Abra no navegador:
 
 ```text
 http://127.0.0.1:8000
@@ -234,15 +331,15 @@ http://127.0.0.1:8000
 
 ---
 
-## 🐳 Executando com Docker
+## 🐳 Execução com Docker
 
-Construa a imagem:
+### Construir a imagem
 
 ```bash
 docker build -t mercado-ia .
 ```
 
-Inicie o container:
+### Iniciar o container
 
 ```bash
 docker run -d \
@@ -253,59 +350,115 @@ docker run -d \
   mercado-ia
 ```
 
-Acompanhe os registros:
+### Visualizar os logs
 
 ```bash
 docker logs -f mercado-ia
 ```
 
+### Verificar o container
+
+```bash
+docker ps
+```
+
+---
+
+## ☁️ Deploy na Oracle Cloud Infrastructure
+
+A aplicação está hospedada em uma instância da OCI localizada na região de São Paulo.
+
+### Recursos configurados
+
+- Máquina virtual Ubuntu;
+- Shape elegível à camada gratuita;
+- Virtual Cloud Network;
+- Sub-rede pública;
+- Internet Gateway;
+- Regra de rota para acesso à internet;
+- Regras de entrada para as portas 22 e 8000;
+- Docker para execução da aplicação;
+- Swap de 2 GB;
+- Política de reinicialização automática do container.
+
+### Endereço público
+
+```text
+http://163.176.19.177:8000
+```
+
+### 👉 [Testar a MIA na OCI](http://163.176.19.177:8000)
+
 ---
 
 ## 🔐 Segurança
 
-O projeto adota alguns cuidados importantes:
+O projeto utiliza as seguintes práticas:
 
-- A chave da API é armazenada no arquivo `.env`;
-- O `.env` não é versionado no GitHub;
-- O repositório fornece somente o `.env.example`;
-- As credenciais são passadas ao container por variáveis de ambiente;
-- A aplicação possui tratamento de erros e tempo limite;
-- Os documentos são processados dentro da própria infraestrutura;
-- A porta SSH é utilizada apenas para administração da VM.
+- Credenciais armazenadas no arquivo `.env`;
+- `.env` ignorado pelo Git;
+- Disponibilização somente do `.env.example`;
+- Variáveis de ambiente enviadas ao container;
+- Chave da API não registrada no código;
+- Tratamento de erros no back-end;
+- Controle de tempo limite no front-end.
 
 ---
 
-## 🎯 Diferenciais do projeto
+## ✅ Entregáveis do Challenge Alura
 
-- Integração completa entre IA, RAG, front-end e cloud;
-- Base de conhecimento criada a partir de documentos institucionais;
-- Respostas contextualizadas em vez de um chatbot genérico;
-- Interface própria com identidade visual da MIA;
-- Indicação das fontes utilizadas;
-- Aplicação disponível publicamente na nuvem;
+| Entregável | Implementação |
+|---|---|
+| Repositório público no GitHub | ✅ Disponível |
+| Histórico de commits | ✅ Mantido com Git |
+| Estrutura organizada | ✅ Separação entre API, RAG, documentos e interface |
+| Descrição do projeto | ✅ Documentada |
+| Arquitetura da solução | ✅ Fluxo RAG documentado |
+| Tecnologias utilizadas | ✅ Listadas no README |
+| Instruções de execução | ✅ Execução local e Docker |
+| Exemplos de perguntas | ✅ Incluídos |
+| Exemplos de respostas | ✅ Incluídos |
+| Agente funcional | ✅ Testado |
+| Leitura e processamento de PDF | ✅ Implementado em `ingest.py` |
+| Busca em base documental | ✅ ChromaDB |
+| Link público | ✅ Aplicação online |
+| Evidência do deploy | ✅ Captura da aplicação na OCI |
+
+---
+
+## 🎯 Diferenciais
+
+- Projeto completo, do desenvolvimento ao deploy;
+- Aplicação de IA Generativa em um cenário de atendimento;
+- Uso de arquitetura RAG;
+- Respostas fundamentadas em documentos;
+- Interface própria com identidade visual;
+- Exibição das fontes consultadas;
+- Banco vetorial;
+- API desenvolvida com FastAPI;
 - Containerização com Docker;
-- Infraestrutura configurada manualmente na OCI;
-- Projeto desenvolvido do ambiente local até a publicação.
+- Infraestrutura configurada na OCI;
+- Aplicação disponível publicamente.
 
 ---
 
-## 📈 Próximas melhorias
+## 📈 Melhorias futuras
 
-- Configurar domínio personalizado e HTTPS;
-- Adicionar testes automatizados;
-- Implementar monitoramento da aplicação;
-- Criar volume persistente para a base vetorial;
-- Desenvolver um painel para gerenciamento dos documentos;
-- Automatizar o deploy com CI/CD;
-- Adicionar métricas de qualidade das respostas.
+- Configuração de domínio e HTTPS;
+- Testes automatizados;
+- Monitoramento da aplicação;
+- Volume persistente para o ChromaDB;
+- Painel de gerenciamento de documentos;
+- Deploy automatizado com CI/CD;
+- Métricas de avaliação das respostas.
 
 ---
 
 ## 👩‍💻 Autora
 
-**Daniella Mateus Batista**
+### Daniella Mateus Batista
 
-Estudante e profissional em desenvolvimento nas áreas de **Dados, Inteligência Artificial e Cloud Computing**.
+Profissional em desenvolvimento nas áreas de **Dados, Inteligência Artificial e Cloud Computing**.
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Daniella_Mateus-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/daniellamateus-batista/)
 
@@ -315,25 +468,26 @@ Estudante e profissional em desenvolvimento nas áreas de **Dados, Inteligência
 
 ## 🎓 Contexto acadêmico
 
-Projeto desenvolvido para o **Challenge da Alura**, aplicando conhecimentos de:
+Projeto desenvolvido para o **Challenge Alura Agente**, aplicando conhecimentos de:
 
 - Inteligência Artificial Generativa;
-- Recuperação Aumentada por Geração;
+- Engenharia de prompts;
+- Arquitetura RAG;
+- Processamento de documentos;
 - Bancos de dados vetoriais;
 - Desenvolvimento de APIs;
-- Engenharia de prompts;
 - Desenvolvimento front-end;
 - Docker;
 - Git e GitHub;
-- Computação em nuvem com OCI.
+- Oracle Cloud Infrastructure.
 
 ---
 
 <div align="center">
 
-### 💗 MIA — Informação inteligente, disponível 24 horas.
+## 💗 MIA — Informação inteligente, disponível 24 horas
 
-[![Acessar projeto](https://img.shields.io/badge/ACESSAR_PROJETO-163.176.19.177:8000-FF8A3D?style=for-the-badge&logo=oracle&logoColor=white)](http://163.176.19.177:8000)
+[![Acessar projeto](https://img.shields.io/badge/ACESSAR_A_MIA-AGORA-FF8A3D?style=for-the-badge&logo=oracle&logoColor=white)](http://163.176.19.177:8000)
 
 Desenvolvido por **Daniella Mateus Batista**
 
